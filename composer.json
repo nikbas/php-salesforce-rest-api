@@ -1,5 +1,6 @@
 {
-  "name": "bjsmasth/php-salesforce-rest-api",
+  "name": "Cleeng/php-salesforce-rest-api",
+  "description": "Salesforce REST API PHP library",
   "license": "MIT",
   "keywords": [
     "bjsmasth",
@@ -13,6 +14,11 @@
       "name": "Bijesh Shrestha",
       "email": "bjsmasth@gmail.com",
       "homepage": "https://github.com/bjsmasth"
+    },
+    {
+      "name": "Maciej Wilczyński (Cleeng)",
+      "email": "m@lupin.rocks",
+      "homepage": "https://github.com/mLupine"
     }
   ],
   "require": {

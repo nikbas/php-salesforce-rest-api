@@ -7,27 +7,33 @@ use Exception\Salesforce as SalesforceException;
 
 class CRUD
 {
-    protected $instance_url;
-    protected $access_token;
+    /** @var string */
+    protected $instanceUrl;
 
-    public function __construct()
-    {
-        if (!isset($_SESSION) and !isset($_SESSION['salesforce'])) {
-            throw new SalesforceException('Access Denied', 403);
-        }
+    /** @var string */
+    protected $accessToken;
 
-        $this->instance_url = $_SESSION['salesforce']['instance_url'];
-        $this->access_token = $_SESSION['salesforce']['access_token'];
+    /** @var string */
+    protected $apiVersion;
+
+    public function __construct(
+        string $instanceUrl,
+        string $accessToken,
+        string $apiVersion = "v43.0"
+    ) {
+        $this->instanceUrl = $instanceUrl;
+        $this->accessToken = $accessToken;
+        $this->apiVersion = $apiVersion;
     }
 
     public function query($query)
     {
-        $url = "{$this->instance_url}/services/data/v39.0/query";
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/query";
 
         $client = new Client();
         $request = $client->request('GET', $url, [
             'headers' => [
-                'Authorization' => "OAuth {$this->access_token}"
+                'Authorization' => "OAuth {$this->accessToken}"
             ],
             'query' => [
                 'q' => $query
@@ -39,13 +45,13 @@ class CRUD
 
     public function create($object, array $data)
     {
-        $url = "{$this->instance_url}/services/data/v39.0/sobjects/{$object}/";
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/";
 
         $client = new Client();
 
         $request = $client->request('POST', $url, [
             'headers' => [
-                'Authorization' => "OAuth {$this->access_token}",
+                'Authorization' => "OAuth {$this->accessToken}",
                 'Content-type' => 'application/json'
             ],
             'json' => $data
@@ -68,13 +74,13 @@ class CRUD
 
     public function update($object, $id, array $data)
     {
-        $url = "{$this->instance_url}/services/data/v39.0/sobjects/{$object}/{$id}";
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
 
         $client = new Client();
 
         $request = $client->request('PATCH', $url, [
             'headers' => [
-                'Authorization' => "OAuth $this->access_token",
+                'Authorization' => "OAuth $this->accessToken",
                 'Content-type' => 'application/json'
             ],
             'json' => $data
@@ -93,13 +99,13 @@ class CRUD
 
     public function upsert($object, $field, $id, array $data)
     {
-        $url = "{$this->instance_url}/services/data/v39.0/sobjects/{$object}/{$field}/{$id}";
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
 
         $client = new Client();
 
         $request = $client->request('PATCH', $url, [
             'headers' => [
-                'Authorization' => "OAuth {$this->access_token}",
+                'Authorization' => "OAuth {$this->accessToken}",
                 'Content-type' => 'application/json'
             ],
             'json' => $data
@@ -118,12 +124,12 @@ class CRUD
 
     public function delete($object, $id)
     {
-        $url = "{$this->instance_url}/services/data/v39.0/sobjects/{$object}/{$id}";
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
 
         $client = new Client();
         $request = $client->request('DELETE', $url, [
             'headers' => [
-                'Authorization' => "OAuth {$this->access_token}",
+                'Authorization' => "OAuth {$this->accessToken}",
             ]
         ]);
 

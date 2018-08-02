@@ -7,7 +7,7 @@
 Via Composer
 
 ``` bash
-composer require bjsmasth/php-salesforce-rest-api
+composer require Cleeng/php-salesforce-rest-api
 ```
 
 # Getting Started
@@ -39,14 +39,14 @@ Authentication
         'client_id' => 'CONSUMERKEY',
         'client_secret' => 'CONSUMERSECRET',
         'username' => 'SALESFORCE_USERNAME',
-        'password' => 'SALESFORCE_PASSWORD AND SECURITY_TOKEN'
+        'password' => 'SALESFORCE_PASSWORD' . 'SECURITY_TOKEN'
     ];
     
     $salesforce = new bjsmasth\Salesforce\Authentication\PasswordAuthentication($options);
     $salesforce->authenticate();
     
-    $access_token = $salesforce->getAccessToken();
-    $instance_url = $salesforce->getInstanceUrl();
+    $accessToken = $salesforce->getAccessToken();
+    $instanceUrl = $salesforce->getInstanceUrl();
     
     Change Endpoint
     
@@ -54,8 +54,8 @@ Authentication
     $salesforce->setEndpoint('https://test.salesforce.com/');
     $salesforce->authenticate();
  
-    $access_token = $salesforce->getAccessToken();
-    $instance_url = $salesforce->getInstanceUrl();
+    $accessToken = $salesforce->getAccessToken();
+    $instanceUrl = $salesforce->getInstanceUrl();
 ```
 
 Query
@@ -63,7 +63,7 @@ Query
 ```bash
     $query = 'SELECT Id,Name FROM ACCOUNT LIMIT 100';
     
-    $crud = new \bjsmasth\Salesforce\CRUD();
+    $crud = new \bjsmasth\Salesforce\CRUD($instanceUrl, $accessToken);
     $crud->query($query);
 ```
 
