@@ -66,9 +66,8 @@ class CRUD
         }
 
         $response = json_decode($request->getBody(), true);
-        $id = $response["id"];
 
-        return $id;
+        return $response;
 
     }
 
