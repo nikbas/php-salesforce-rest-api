@@ -2,8 +2,9 @@
 
 namespace bjsmasth\Salesforce\Authentication;
 
-use bjsmasth\Salesforce\Exception\SalesforceAuthentication;
+use bjsmasth\Salesforce\Exception\SalesforceAuthenticationException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class PasswordAuthentication implements AuthenticationInterface
 {
@@ -23,14 +24,21 @@ class PasswordAuthentication implements AuthenticationInterface
     {
         $client = new Client();
 
-        $request = $client->request('post', "{$this->endPoint}services/oauth2/token", ['form_params' => $this->options]);
+        try {
+            $request = $client->request(
+                "post",
+                "{$this->endPoint}services/oauth2/token",
+                ['form_params' => $this->options]
+            );
+        } catch (ClientException $e) {
+            throw SalesforceAuthenticationException::fromClientException($e);
+        }
+
         $response = json_decode($request->getBody(), true);
 
         if ($response) {
             $this->access_token = $response['access_token'];
             $this->instance_url = $response['instance_url'];
-        } else {
-            throw new SalesforceAuthentication($request->getBody());
         }
     }
 

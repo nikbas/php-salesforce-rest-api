@@ -2,8 +2,9 @@
 
 namespace bjsmasth\Salesforce;
 
+use bjsmasth\Salesforce\Exception\SalesforceException;
 use GuzzleHttp\Client;
-use Exception\Salesforce as SalesforceException;
+use GuzzleHttp\Exception\ClientException;
 
 class CRUD
 {
@@ -69,15 +70,19 @@ class CRUD
 
         $client = new Client();
 
-        $request = $client->request('POST', $url, [
-            'headers' => [
-                'Authorization' => "OAuth {$this->accessToken}",
-                'Content-type' => 'application/json'
-            ],
-            'json' => $data
-        ]);
+        try {
+            $request = $client->request('POST', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}",
+                    'Content-type' => 'application/json'
+                ],
+                'json' => $data
+            ]);
 
-        $status = $request->getStatusCode();
+            $status = $request->getStatusCode();
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
 
         if ($status != 201) {
             throw new SalesforceException(
@@ -86,9 +91,7 @@ class CRUD
         }
 
         $response = json_decode($request->getBody(), true);
-        $id = $response["id"];
-
-        return $id;
+        return $response;
 
     }
 
@@ -98,13 +101,17 @@ class CRUD
 
         $client = new Client();
 
-        $request = $client->request('PATCH', $url, [
-            'headers' => [
-                'Authorization' => "OAuth $this->accessToken",
-                'Content-type' => 'application/json'
-            ],
-            'json' => $data
-        ]);
+        try {
+            $request = $client->request('PATCH', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth $this->accessToken",
+                    'Content-type' => 'application/json'
+                ],
+                'json' => $data
+            ]);
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
 
         $status = $request->getStatusCode();
 
@@ -123,13 +130,17 @@ class CRUD
 
         $client = new Client();
 
-        $request = $client->request('PATCH', $url, [
-            'headers' => [
-                'Authorization' => "OAuth {$this->accessToken}",
-                'Content-type' => 'application/json'
-            ],
-            'json' => $data
-        ]);
+        try {
+            $request = $client->request('PATCH', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}",
+                    'Content-type' => 'application/json'
+                ],
+                'json' => $data
+            ]);
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
 
         $status = $request->getStatusCode();
 
@@ -146,12 +157,16 @@ class CRUD
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
 
-        $client = new Client();
-        $request = $client->request('DELETE', $url, [
-            'headers' => [
-                'Authorization' => "OAuth {$this->accessToken}",
-            ]
-        ]);
+        try {
+            $client = new Client();
+            $request = $client->request('DELETE', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}",
+                ]
+            ]);
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
 
         $status = $request->getStatusCode();
 
