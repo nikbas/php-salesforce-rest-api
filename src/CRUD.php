@@ -14,15 +14,35 @@ class CRUD
     protected $accessToken;
 
     /** @var string */
-    protected $apiVersion;
+    protected $apiVersion = "v43.0";
 
-    public function __construct(
-        string $instanceUrl,
-        string $accessToken,
-        string $apiVersion = "v43.0"
-    ) {
+    public function getInstanceUrl(): string
+    {
+        return $this->instanceUrl;
+    }
+
+    public function setInstanceUrl(string $instanceUrl): void
+    {
         $this->instanceUrl = $instanceUrl;
+    }
+
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
+
+    public function setAccessToken(string $accessToken): void
+    {
         $this->accessToken = $accessToken;
+    }
+
+    public function getApiVersion(): string
+    {
+        return $this->apiVersion;
+    }
+
+    public function setApiVersion(string $apiVersion): void
+    {
         $this->apiVersion = $apiVersion;
     }
 
