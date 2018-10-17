@@ -47,7 +47,7 @@ class CRUD
         $this->apiVersion = $apiVersion;
     }
 
-    public function query($query)
+    public function query($query): array
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/query";
 
@@ -64,7 +64,7 @@ class CRUD
         return json_decode($request->getBody(), true);
     }
 
-    public function create($object, array $data)
+    public function create($object, array $data): array
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/";
 
@@ -95,7 +95,7 @@ class CRUD
 
     }
 
-    public function update($object, $id, array $data)
+    public function update($object, $id, array $data): array
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
 
@@ -121,10 +121,10 @@ class CRUD
             );
         }
 
-        return $status;
+        return json_decode($request->getBody(), true);;
     }
 
-    public function upsert($object, $field, $id, array $data)
+    public function upsert($object, $field, $id, array $data): array
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
 
@@ -150,10 +150,10 @@ class CRUD
             );
         }
 
-        return $status;
+        return json_decode($request->getBody(), true);;
     }
 
-    public function delete($object, $id)
+    public function delete($object, $id): array
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
 
@@ -176,6 +176,6 @@ class CRUD
             );
         }
 
-        return true;
+        return json_decode($request->getBody(), true);;
     }
 }
