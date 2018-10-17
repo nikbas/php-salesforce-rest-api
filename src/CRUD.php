@@ -15,7 +15,7 @@ class CRUD
     protected $accessToken;
 
     /** @var string */
-    protected $apiVersion = "v43.0";
+    protected $apiVersion = "v44.0";
 
     public function getInstanceUrl(): string
     {
@@ -61,7 +61,37 @@ class CRUD
             ]
         ]);
 
-        return json_decode($request->getBody(), true);
+        $response = json_decode($request->getBody(), true);
+        return $response;
+    }
+
+    public function retrieve($object, $field, $id): array
+    {
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
+
+        $client = new Client();
+
+        try {
+            $request = $client->request('GET', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}",
+                    'Content-type' => 'application/json'
+                ],
+            ]);
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
+
+        $status = $request->getStatusCode();
+
+        if ($status != 200) {
+            throw new SalesforceException(
+                "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
+            );
+        }
+
+        $response = json_decode($request->getBody(), true);
+        return $response;
     }
 
     public function create($object, array $data)
@@ -92,7 +122,6 @@ class CRUD
 
         $response = json_decode($request->getBody(), true);
         return $response;
-
     }
 
     public function update($object, $id, array $data)
