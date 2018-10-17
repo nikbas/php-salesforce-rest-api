@@ -15,7 +15,7 @@ class CRUD
     protected $accessToken;
 
     /** @var string */
-    protected $apiVersion = "v43.0";
+    protected $apiVersion = "v44.0";
 
     public function getInstanceUrl(): string
     {
@@ -61,7 +61,8 @@ class CRUD
             ]
         ]);
 
-        return json_decode($request->getBody(), true);
+        $response = json_decode($request->getBody(), true);
+        return $response;
     }
 
     public function create($object, array $data): array
@@ -121,7 +122,8 @@ class CRUD
             );
         }
 
-        return json_decode($request->getBody(), true);;
+        $response = json_decode($request->getBody(), true);
+        return $response;
     }
 
     public function upsert($object, $field, $id, array $data): array
@@ -150,7 +152,8 @@ class CRUD
             );
         }
 
-        return json_decode($request->getBody(), true);;
+        $response = json_decode($request->getBody(), true);
+        return $response;
     }
 
     public function delete($object, $id): array
@@ -176,6 +179,7 @@ class CRUD
             );
         }
 
-        return json_decode($request->getBody(), true);;
+        $response = json_decode($request->getBody(), true);
+        return $response;
     }
 }
