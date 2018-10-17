@@ -65,6 +65,35 @@ class CRUD
         return $response;
     }
 
+    public function retrieve($object, $field, $id): array
+    {
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
+
+        $client = new Client();
+
+        try {
+            $request = $client->request('GET', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}",
+                    'Content-type' => 'application/json'
+                ],
+            ]);
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
+
+        $status = $request->getStatusCode();
+
+        if ($status != 200) {
+            throw new SalesforceException(
+                "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
+            );
+        }
+
+        $response = json_decode($request->getBody(), true);
+        return $response;
+    }
+
     public function create($object, array $data): array
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/";
@@ -93,7 +122,6 @@ class CRUD
 
         $response = json_decode($request->getBody(), true);
         return $response;
-
     }
 
     public function update($object, $id, array $data): array
