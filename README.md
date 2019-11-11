@@ -1,5 +1,6 @@
 # Php Salesforce Rest Api
 
+Forked from:
 ```Bijesh Shrestha``` ```bjsmasth``` ```bjsmasth@gmail.com``` ```bjsmasth``` ```php rest api```
 
 ## Install
@@ -7,7 +8,7 @@
 Via Composer
 
 ``` bash
-composer require Cleeng/php-salesforce-rest-api
+composer require jerkob/php-salesforce-rest-api
 ```
 
 # Getting Started
@@ -42,7 +43,7 @@ Authentication
         'password' => 'SALESFORCE_PASSWORD' . 'SECURITY_TOKEN'
     ];
     
-    $salesforce = new bjsmasth\Salesforce\Authentication\PasswordAuthentication($options);
+    $salesforce = new jerkob\Salesforce\Authentication\PasswordAuthentication($options);
     $salesforce->authenticate();
     
     $accessToken = $salesforce->getAccessToken();
@@ -50,7 +51,7 @@ Authentication
     
     Change Endpoint
     
-    $salesforce = new bjsmasth\Salesforce\Authentication\PasswordAuthentication($options);
+    $salesforce = new jerkob\Salesforce\Authentication\PasswordAuthentication($options);
     $salesforce->setEndpoint('https://test.salesforce.com/');
     $salesforce->authenticate();
  
@@ -63,7 +64,7 @@ Query
 ```bash
     $query = 'SELECT Id,Name FROM ACCOUNT LIMIT 100';
     
-    $crud = new \bjsmasth\Salesforce\CRUD($instanceUrl, $accessToken);
+    $crud = new \jerkob\Salesforce\CRUD($instanceUrl, $accessToken);
     $crud->query($query);
 ```
 
