@@ -1,8 +1,8 @@
 <?php
 
-namespace bjsmasth\Salesforce\Authentication;
+namespace jerkob\Salesforce\Authentication;
 
-use bjsmasth\Salesforce\Exception\SalesforceAuthenticationException;
+use jerkob\Salesforce\Exception\SalesforceAuthenticationException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
