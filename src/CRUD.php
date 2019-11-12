@@ -16,6 +16,19 @@ class CRUD
 
     /** @var string */
     protected $apiVersion = "v47.0";
+    
+    public function __construct($instanceUrl = NULL, $accessToken = NULL)
+    {
+        if ($instanceUrl)
+        {
+            $this->setInstanceUrl($instanceUrl);
+        }
+        
+        if ($accessToken)
+        {
+            $this->setAccessToken($accessToken);
+        }
+    }
 
     public function getInstanceUrl()
     {
