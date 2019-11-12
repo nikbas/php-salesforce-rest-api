@@ -14,7 +14,7 @@ class PasswordAuthentication implements AuthenticationInterface
     protected $access_token;
     protected $instance_url;
 
-    public function __construct(array $options)
+    public function __construct($options)
     {
         $this->endPoint = 'https://login.salesforce.com/';
         $this->options = $options;
