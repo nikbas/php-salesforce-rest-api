@@ -15,14 +15,14 @@ class CRUD
     protected $accessToken;
 
     /** @var string */
-    protected $apiVersion = "v44.0";
+    protected $apiVersion = "v47.0";
 
-    public function getInstanceUrl(): string
+    public function getInstanceUrl()
     {
         return $this->instanceUrl;
     }
 
-    public function setInstanceUrl(string $instanceUrl): void
+    public function setInstanceUrl($instanceUrl)
     {
         $this->instanceUrl = $instanceUrl;
     }
@@ -32,17 +32,17 @@ class CRUD
         return $this->accessToken;
     }
 
-    public function setAccessToken(string $accessToken): void
+    public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
     }
 
-    public function getApiVersion(): string
+    public function getApiVersion()
     {
         return $this->apiVersion;
     }
 
-    public function setApiVersion(string $apiVersion): void
+    public function setApiVersion($apiVersion)
     {
         $this->apiVersion = $apiVersion;
     }
@@ -65,7 +65,7 @@ class CRUD
         return $response;
     }
 
-    public function retrieve($object, $field, $id): array
+    public function retrieve($object, $field, $id)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
 
@@ -94,7 +94,7 @@ class CRUD
         return $response;
     }
 
-    public function create($object, array $data)
+    public function create($object, $data)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/";
 
@@ -124,7 +124,7 @@ class CRUD
         return $response;
     }
 
-    public function update($object, $id, array $data)
+    public function update($object, $id, $data)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
 
@@ -153,7 +153,7 @@ class CRUD
         return $status;
     }
 
-    public function upsert($object, $field, $id, array $data)
+    public function upsert($object, $field, $id, $data)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
 
