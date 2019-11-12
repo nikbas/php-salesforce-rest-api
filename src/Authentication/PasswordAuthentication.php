@@ -11,8 +11,8 @@ class PasswordAuthentication implements AuthenticationInterface
     protected $client;
     protected $endPoint;
     protected $options;
-    protected $access_token;
-    protected $instance_url;
+    protected $accessToken;
+    protected $instanceUrl;
 
     public function __construct($options)
     {
@@ -37,8 +37,8 @@ class PasswordAuthentication implements AuthenticationInterface
         $response = json_decode($request->getBody(), true);
 
         if ($response) {
-            $this->access_token = $response['access_token'];
-            $this->instance_url = $response['instance_url'];
+            $this->accessToken = $response['access_token'];
+            $this->instanceUrl = $response['instance_url'];
         }
     }
 
@@ -49,11 +49,11 @@ class PasswordAuthentication implements AuthenticationInterface
 
     public function getAccessToken()
     {
-        return $this->access_token;
+        return $this->accessToken;
     }
 
     public function getInstanceUrl()
     {
-        return $this->instance_url;
+        return $this->instanceUrl;
     }
 }
