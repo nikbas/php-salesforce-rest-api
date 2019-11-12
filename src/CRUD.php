@@ -134,7 +134,9 @@ class CRUD
         }
 
         $response = json_decode($request->getBody(), true);
-        return $response;
+        $id = $response["id"];
+
+        return $id;
     }
 
     public function update($object, $id, $data)
