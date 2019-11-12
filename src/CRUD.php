@@ -40,7 +40,7 @@ class CRUD
         $this->instanceUrl = $instanceUrl;
     }
 
-    public function getAccessToken(): string
+    public function getAccessToken()
     {
         return $this->accessToken;
     }
