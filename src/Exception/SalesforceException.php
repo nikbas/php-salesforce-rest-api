@@ -20,12 +20,12 @@ class SalesforceException extends \Exception
         return $ret;
     }
 
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }
 
-    public function setErrors(array $errors)
+    public function setErrors($errors)
     {
         $this->errors = $errors;
     }
