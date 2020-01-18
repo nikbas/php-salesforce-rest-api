@@ -1,9 +1,17 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
-namespace jerkob\Salesforce\Authentication;
+namespace EHAERER\Salesforce\Authentication;
 
 interface AuthenticationInterface
 {
+
+    /**
+     * @return mixed
+     */
     public function getAccessToken();
+
+    /**
+     * @return mixed
+     */
     public function getInstanceUrl();
 }

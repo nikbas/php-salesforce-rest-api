@@ -1,65 +1,110 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
-namespace jerkob\Salesforce;
+/** @noinspection PhpUndefinedClassInspection */
 
-use jerkob\Salesforce\Exception\SalesforceException;
+namespace EHAERER\Salesforce;
+
+use EHAERER\Salesforce\Exception\SalesforceException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 
-class CRUD
+class SalesforceFunctions
 {
-    /** @var string */
+
+    /**
+     * @var string
+     */
+    const apiVersion = "v48.0";
+
+    /**
+     * @var string
+     */
     protected $instanceUrl;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $accessToken;
 
-    /** @var string */
-    protected $apiVersion = "v47.0";
-    
-    public function __construct($instanceUrl = NULL, $accessToken = NULL)
+    /**
+     * @var string
+     */
+    protected $apiVersion = "v48.0";
+
+    /**
+     * SalesforceFunctions constructor.
+     *
+     * @param null $instanceUrl
+     * @param null $accessToken
+     * @param string $apiVersion Default used from constant is "v48.0"
+     */
+    public function __construct($instanceUrl = null, $accessToken = null, $apiVersion = self::apiVersion)
     {
-        if ($instanceUrl)
-        {
+        if ($instanceUrl) {
             $this->setInstanceUrl($instanceUrl);
         }
-        
-        if ($accessToken)
-        {
+
+        if ($accessToken) {
             $this->setAccessToken($accessToken);
         }
+
+        $this->apiVersion = $apiVersion;
     }
 
+    /**
+     * @return string
+     */
     public function getInstanceUrl()
     {
         return $this->instanceUrl;
     }
 
+    /**
+     * @param string $instanceUrl
+     */
     public function setInstanceUrl($instanceUrl)
     {
         $this->instanceUrl = $instanceUrl;
     }
 
+    /**
+     * @return string
+     */
     public function getAccessToken()
     {
         return $this->accessToken;
     }
 
+    /**
+     * @param string $accessToken
+     */
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
     }
 
+    /**
+     * @return string
+     */
     public function getApiVersion()
     {
         return $this->apiVersion;
     }
 
+    /**
+     * @param string $apiVersion
+     */
     public function setApiVersion($apiVersion)
     {
         $this->apiVersion = $apiVersion;
     }
 
+    /**
+     * @param string $query
+     * @return mixed Array or exception
+     * @throws GuzzleException
+     */
     public function query($query)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/query";
@@ -74,10 +119,17 @@ class CRUD
             ]
         ]);
 
-        $response = json_decode($request->getBody(), true);
-        return $response;
+        return json_decode($request->getBody(), true);
     }
 
+    /**
+     * @param $object
+     * @param $field
+     * @param $id
+     * @return mixed
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
     public function retrieve($object, $field, $id)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
@@ -103,10 +155,16 @@ class CRUD
             );
         }
 
-        $response = json_decode($request->getBody(), true);
-        return $response;
+        return json_decode($request->getBody(), true);
     }
 
+    /**
+     * @param $object
+     * @param $data
+     * @return mixed
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
     public function create($object, $data)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/";
@@ -134,11 +192,17 @@ class CRUD
         }
 
         $response = json_decode($request->getBody(), true);
-        $id = $response["id"];
-
-        return $id;
+        return $response["id"];
     }
 
+    /**
+     * @param $object
+     * @param $id
+     * @param $data
+     * @return int
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
     public function update($object, $id, $data)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
@@ -168,6 +232,15 @@ class CRUD
         return $status;
     }
 
+    /**
+     * @param $object
+     * @param $field
+     * @param $id
+     * @param $data
+     * @return int
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
     public function upsert($object, $field, $id, $data)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$field}/{$id}";
@@ -197,6 +270,13 @@ class CRUD
         return $status;
     }
 
+    /**
+     * @param $object
+     * @param $id
+     * @return bool
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
     public function delete($object, $id)
     {
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";

@@ -1,25 +1,59 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
-namespace jerkob\Salesforce\Authentication;
+/** @noinspection PhpUndefinedClassInspection */
 
-use jerkob\Salesforce\Exception\SalesforceAuthenticationException;
+namespace EHAERER\Salesforce\Authentication;
+
+use EHAERER\Salesforce\Exception\SalesforceAuthenticationException;
+use EHAERER\Salesforce\Exception\SalesforceException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 
 class PasswordAuthentication implements AuthenticationInterface
 {
+
+    /**
+     * @var string
+     */
     protected $client;
+
+    /**
+     * @var string
+     */
     protected $endPoint;
+
+    /**
+     * @var array
+     */
     protected $options;
+
+    /**
+     * @var string
+     */
     protected $accessToken;
+
+    /**
+     * @var string
+     */
     protected $instanceUrl;
 
+    /**
+     * PasswordAuthentication constructor.
+     *
+     * @param $options
+     */
     public function __construct($options)
     {
         $this->endPoint = 'https://login.salesforce.com/';
         $this->options = $options;
     }
 
+    /**
+     * @throws SalesforceAuthenticationException
+     * @throws SalesforceException
+     * @throws GuzzleException
+     */
     public function authenticate()
     {
         $client = new Client();
@@ -42,16 +76,25 @@ class PasswordAuthentication implements AuthenticationInterface
         }
     }
 
+    /**
+     * @param string $endPoint
+     */
     public function setEndpoint($endPoint)
     {
         $this->endPoint = $endPoint;
     }
 
+    /**
+     * @return string
+     */
     public function getAccessToken()
     {
         return $this->accessToken;
     }
 
+    /**
+     * @return string
+     */
     public function getInstanceUrl()
     {
         return $this->instanceUrl;

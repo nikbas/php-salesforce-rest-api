@@ -1,13 +1,21 @@
 <?php
 
-namespace jerkob\Salesforce\Exception;
+namespace EHAERER\Salesforce\Exception;
 
 use GuzzleHttp\Exception\ClientException;
 
 class SalesforceAuthenticationException extends SalesforceException
 {
+
+    /**
+     * @var string
+     */
     private static $errorMessage = "Salesforce authentication request error";
 
+    /**
+     * @param ClientException $e
+     * @return SalesforceAuthenticationException|SalesforceException
+     */
     public static function fromClientException(ClientException $e)
     {
         $responseString = $e->getResponse()->getBody()->getContents();

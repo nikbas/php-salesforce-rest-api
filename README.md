@@ -1,21 +1,21 @@
-# Php Salesforce Rest Api
+# PHP Salesforce REST API wrapper
 
 Forked from:
-```Bijesh Shrestha``` ```bjsmasth``` ```bjsmasth@gmail.com``` ```bjsmasth``` ```php rest api```
+```bjsmasth/php-salesforce-rest-api``` ```Cleeng/php-salesforce-rest-api``` ```jerkob/php-salesforce-rest-api-forked```
 
 ## Install
 
-Via Composer
+Via **[composer](https://getcomposer.org/)**
 
 ``` bash
-composer require jerkob/php-salesforce-rest-api
+composer require EHAERER/php-salesforce-rest-api
 ```
 
 # Getting Started
 
 Setting up a Connected App
 
-1. Log into to your Salesforce org
+1. Log into your Salesforce org
 2. Click on Setup in the upper right-hand menu
 3. Under Build click ```Create > Apps ```
 4. Scroll to the bottom and click ```New``` under Connected Apps.
@@ -28,7 +28,7 @@ Setting up a Connected App
     - Select access scope (If you need a refresh token, specify it here)
 6. Click Save
 
-After saving, you will now be given a Consumer Key and Consumer Secret. Update your config file with values for ```consumerKey``` and ```consumerSecret```
+After saving, you will now be given a _consumer key_ and _consumer secret_. Update your config file with values for ```consumerKey``` and ```consumerSecret```
 
 # Setup
 
@@ -37,24 +37,19 @@ Authentication
 ```bash
     $options = [
         'grant_type' => 'password',
-        'client_id' => 'CONSUMERKEY',
-        'client_secret' => 'CONSUMERSECRET',
-        'username' => 'SALESFORCE_USERNAME',
-        'password' => 'SALESFORCE_PASSWORD' . 'SECURITY_TOKEN'
+        'client_id' => 'CONSUMERKEY', /* insert consumer key here */
+        'client_secret' => 'CONSUMERSECRET', /* insert consumer secret here */
+        'username' => 'SALESFORCE_USERNAME', /* insert Salesforce username here */
+        'password' => 'SALESFORCE_PASSWORD' . 'SECURITY_TOKEN' /* insert Salesforce user password and security token here */
     ];
-    
-    $salesforce = new jerkob\Salesforce\Authentication\PasswordAuthentication($options);
+
+    $salesforce = new \EHAERER\Salesforce\Authentication\PasswordAuthentication($options);
+    /* if you want to login to a Sandbox change the url to https://test.salesforce.com/ */
+    $endPoint = 'https://login.salesforce.com/';
+    $salesforce->setEndpoint($endPoint);
     $salesforce->authenticate();
-    
-    $accessToken = $salesforce->getAccessToken();
-    $instanceUrl = $salesforce->getInstanceUrl();
-    
-    Change Endpoint
-    
-    $salesforce = new jerkob\Salesforce\Authentication\PasswordAuthentication($options);
-    $salesforce->setEndpoint('https://test.salesforce.com/');
-    $salesforce->authenticate();
- 
+
+    /* if you need access token or instance url */
     $accessToken = $salesforce->getAccessToken();
     $instanceUrl = $salesforce->getInstanceUrl();
 ```
@@ -63,20 +58,22 @@ Query
 
 ```bash
     $query = 'SELECT Id,Name FROM ACCOUNT LIMIT 100';
-    
-    $crud = new \jerkob\Salesforce\CRUD($instanceUrl, $accessToken);
-    $crud->query($query);
+
+    $salesforceFunctions = new \EHAERER\Salesforce\SalesforceFunctions($instanceUrl, $accessToken);
+    /* returns array with the queried data */
+    $data = $salesforceFunctions->query($query);
 ```
 
 Create
 
 ```bash
-    
+
     $data = [
-       'Name' => 'some name',
+       'Name' => 'Some name',
     ];
-    
-    $crud->create('Account', $data);  #returns id
+
+    /* returns the id of the created object */
+    $salesforceFunctions->create('Account', $data);
 ```
 
 Update
@@ -85,30 +82,22 @@ Update
     $new_data = [
        'Name' => 'another name',
     ];
-    
-    $crud->update('Account', $id, $new_data); #returns status_code 204
-    
-```
-Upsert
 
-```bash
-    $new_data = [
-       'Name' => 'another name',
-    ];
-    
-    $crud->update('Account', 'API Name/ Field Name', 'value', $new_data); #returns status_code 204 or 201
-    
+    /* returns statuscode */
+    $salesforceFunctions->update('Account', $id, $new_data);
+
 ```
 
 Delete
 
 ```bash
-    $crud->delete('Account', $id);
+    $salesforceFunctions->delete('Account', $id);
 
 ```
-Delete
 
-```bash
-    $crud->delete('Account', $id);
 
-```
+#### Changelog: ####
+##### 18.01.2020 #####
+ - switched to PHP >7.0
+ - renamed class from CRUD to SalesforceFunctions
+ - added dependency to ext-json in composer package

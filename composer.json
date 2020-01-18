@@ -1,36 +1,43 @@
 {
-  "name": "jerkob/php-salesforce-rest-api",
-  "description": "Salesforce REST API PHP library",
-  "license": "MIT",
-  "keywords": [
-    "php salesforce",
-    "php salesforce rest",
-    "php salesforce rest api"
-  ],
-  "authors": [
-    {
-      "name": "Bijesh Shrestha",
-      "email": "bjsmasth@gmail.com",
-      "homepage": "https://github.com/bjsmasth"
-    },
-    {
-      "name": "Maciej Wilczyński (Cleeng)",
-      "email": "m@lupin.rocks",
-      "homepage": "https://github.com/mLupine"
-    },
-    {
-      "name": "Jacob Terry (jerkob)",
-      "email": "jsterry@gmail.com",
-      "homepage": "https://www.jacobterry.com"
-    }
-  ],
-  "require": {
-    "guzzlehttp/guzzle": "^6.2",
-    "php": ">=5.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "jerkob\\Salesforce\\": "src/"
-    }
-  }
+	"name": "ehaerer/php-salesforce-rest-api",
+	"description": "PHP Salesforce REST API wrapper",
+	"version": "1.0.0",
+	"license": "MIT",
+	"keywords": [
+		"php salesforce",
+		"php salesforce rest",
+		"php salesforce rest api"
+	],
+	"authors": [
+		{
+			"name": "Bijesh Shrestha (bjsmasth)",
+			"email": "bjsmasth@gmail.com",
+			"homepage": "https://github.com/bjsmasth"
+		},
+		{
+			"name": "Maciej Wilczyński (Cleeng)",
+			"email": "m@lupin.rocks",
+			"homepage": "https://github.com/mLupine"
+		},
+		{
+			"name": "Jacob Terry (jerkob)",
+			"email": "jsterry@gmail.com",
+			"homepage": "https://www.jacobterry.com"
+		},
+		{
+			"name": "Ephraim Härer (kephson)",
+			"email": "mail@ephra.im",
+			"homepage": "https://ephra.im"
+		}
+	],
+	"require": {
+		"guzzlehttp/guzzle": "^6.2",
+		"php": ">=7.0",
+		"ext-json": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"EHAERER\\Salesforce\\": "src/"
+		}
+	}
 }

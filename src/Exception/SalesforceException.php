@@ -1,16 +1,27 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
-namespace jerkob\Salesforce\Exception;
+namespace EHAERER\Salesforce\Exception;
 
+use Exception;
 use GuzzleHttp\Exception\ClientException;
 
-class SalesforceException extends \Exception
+class SalesforceException extends Exception
 {
+
+    /**
+     * @var string
+     */
     private static $errorMessage = "Salesforce request error";
 
-    /** @var array */
+    /**
+     * @var array
+     */
     private $errors = [];
 
+    /**
+     * @param ClientException $e
+     * @return SalesforceException
+     */
     public static function fromClientException(ClientException $e)
     {
         $responseString = $e->getResponse()->getBody()->getContents();
@@ -20,11 +31,17 @@ class SalesforceException extends \Exception
         return $ret;
     }
 
+    /**
+     * @return array
+     */
     public function getErrors()
     {
         return $this->errors;
     }
 
+    /**
+     * @param array $errors
+     */
     public function setErrors($errors)
     {
         $this->errors = $errors;
