@@ -4,10 +4,10 @@
 
 namespace EHAERER\Salesforce;
 
-use EHAERER\Salesforce\Exception\SalesforceException;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
+use \EHAERER\Salesforce\Exception\SalesforceException;
+use \GuzzleHttp\Client;
+use \GuzzleHttp\Exception\ClientException;
+use \GuzzleHttp\Exception\GuzzleException;
 
 class SalesforceFunctions
 {
@@ -15,7 +15,7 @@ class SalesforceFunctions
     /**
      * @var string
      */
-    const apiVersion = "v48.0";
+    const apiVersion = "v47.0";
 
     /**
      * @var string
@@ -30,17 +30,19 @@ class SalesforceFunctions
     /**
      * @var string
      */
-    protected $apiVersion = "v48.0";
+    protected $apiVersion = "v47.0";
 
     /**
      * SalesforceFunctions constructor.
      *
+     * @param string $apiVersion Default API version is used from constant
      * @param null $instanceUrl
      * @param null $accessToken
-     * @param string $apiVersion Default used from constant is "v48.0"
      */
-    public function __construct($instanceUrl = null, $accessToken = null, $apiVersion = self::apiVersion)
+    public function __construct($apiVersion = self::apiVersion, $instanceUrl = null, $accessToken = null)
     {
+        $this->apiVersion = $apiVersion;
+
         if ($instanceUrl) {
             $this->setInstanceUrl($instanceUrl);
         }
@@ -48,8 +50,6 @@ class SalesforceFunctions
         if ($accessToken) {
             $this->setAccessToken($accessToken);
         }
-
-        $this->apiVersion = $apiVersion;
     }
 
     /**
