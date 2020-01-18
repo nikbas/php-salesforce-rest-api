@@ -8,7 +8,7 @@ Forked from:
 Via **[composer](https://getcomposer.org/)**
 
 ``` bash
-composer require EHAERER/php-salesforce-rest-api
+composer require ehaerer/php-salesforce-rest-api
 ```
 
 # Getting Started
