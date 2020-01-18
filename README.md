@@ -88,6 +88,18 @@ Update
 
 ```
 
+Upsert
+
+```bash
+    $new_data = [
+       'Name' => 'another name',
+    ];
+
+    /* returns statuscode */
+    $salesforceFunctions->upsert('Account', 'API Name/ Field Name', 'value', $new_data);
+
+```
+
 Delete
 
 ```bash
