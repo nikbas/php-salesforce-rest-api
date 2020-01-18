@@ -1,7 +1,6 @@
 {
 	"name": "ehaerer/php-salesforce-rest-api",
 	"description": "PHP Salesforce REST API wrapper",
-	"version": "1.0.0",
 	"license": "MIT",
 	"keywords": [
 		"php salesforce",
