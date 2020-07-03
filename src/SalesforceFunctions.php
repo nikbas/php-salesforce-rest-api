@@ -15,7 +15,7 @@ class SalesforceFunctions
     /**
      * @var string
      */
-    const apiVersion = "v47.0";
+    const apiVersion = "v48.0";
 
     /**
      * @var string
@@ -30,7 +30,7 @@ class SalesforceFunctions
     /**
      * @var string
      */
-    protected $apiVersion = "v47.0";
+    protected $apiVersion = "v48.0";
 
     /**
      * SalesforceFunctions constructor.
@@ -149,7 +149,7 @@ class SalesforceFunctions
 
         $status = $request->getStatusCode();
 
-        if ($status != 200) {
+        if ($status !== 200) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
@@ -185,7 +185,7 @@ class SalesforceFunctions
             throw SalesforceException::fromClientException($e);
         }
 
-        if ($status != 201) {
+        if ($status !== 201) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
@@ -223,7 +223,7 @@ class SalesforceFunctions
 
         $status = $request->getStatusCode();
 
-        if ($status != 204) {
+        if ($status !== 204) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
@@ -261,7 +261,7 @@ class SalesforceFunctions
 
         $status = $request->getStatusCode();
 
-        if ($status != 204 && $status != 201) {
+        if ($status !== 204 && $status !== 201) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
@@ -294,7 +294,7 @@ class SalesforceFunctions
 
         $status = $request->getStatusCode();
 
-        if ($status != 204) {
+        if ($status !== 204) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );

@@ -20,7 +20,7 @@ class SalesforceAuthenticationException extends SalesforceException
     {
         $responseString = $e->getResponse()->getBody()->getContents();
         $responseData = json_decode($responseString, true);
-        $ret = new self(self::$errorMessage, $e->getResponse()->getStatusCode());
+        $ret = new self(self::$errorMessage . ': ' . $e->getMessage(), $e->getResponse()->getStatusCode());
         $ret->setErrors($responseData);
         return $ret;
     }
