@@ -302,4 +302,38 @@ class SalesforceFunctions
 
         return true;
     }
+
+    /**
+     * @param $object
+     * @return mixed
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
+    public function describe($object)
+    {
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/describe/";
+
+        $client = new Client();
+
+        try {
+            $request = $client->request('GET', $url, [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}",
+                    'Content-type' => 'application/json'
+                ],
+            ]);
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
+
+        $status = $request->getStatusCode();
+
+        if ($status !== 200) {
+            throw new SalesforceException(
+                "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
+            );
+        }
+
+        return json_decode($request->getBody(), true);
+    }
 }
