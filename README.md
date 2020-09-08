@@ -107,8 +107,18 @@ Delete
 
 ```
 
+Describe
+
+```bash
+    $salesforceFunctions->describe('Account');
+
+```
+
 
 #### Changelog: ####
+##### 08.09.2020 #####
+ - added describe method
+
 ##### 18.01.2020 #####
  - switched to PHP >7.0
  - renamed class from CRUD to SalesforceFunctions
