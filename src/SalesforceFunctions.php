@@ -369,11 +369,12 @@ class SalesforceFunctions
     /**
      * @param string $customEndpoint all behind /services/
      * @param $data
+     * @param int $successStatusCode
      * @return mixed
      * @throws GuzzleException
      * @throws SalesforceException
      */
-    public function customEndpoint($customEndpoint, $data)
+    public function customEndpoint($customEndpoint, $data, $successStatusCode = 200)
     {
         /* customEndpoint could be all behind /services/ */
         $url = "{$this->instanceUrl}/services/{$customEndpoint}";
@@ -398,7 +399,7 @@ class SalesforceFunctions
             throw SalesforceException::fromClientException($e);
         }
 
-        if ($status !== 201) {
+        if ($status !== $successStatusCode) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
