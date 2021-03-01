@@ -5,10 +5,11 @@
 
 namespace EHAERER\Salesforce;
 
-use \EHAERER\Salesforce\Exception\SalesforceException;
-use \GuzzleHttp\Client;
-use \GuzzleHttp\Exception\ClientException;
-use \GuzzleHttp\Exception\GuzzleException;
+use EHAERER\Salesforce\Exception\SalesforceException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 class SalesforceFunctions
 {
@@ -370,7 +371,7 @@ class SalesforceFunctions
      * @param string $customEndpoint all behind /services/
      * @param $data
      * @param int $successStatusCode
-     * @return mixed
+     * @return ResponseInterface
      * @throws GuzzleException
      * @throws SalesforceException
      */
@@ -405,6 +406,6 @@ class SalesforceFunctions
             );
         }
 
-        return json_decode($request->getBody(), true);
+        return $request;
     }
 }

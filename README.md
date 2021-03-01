@@ -62,6 +62,7 @@ Query
     $salesforceFunctions = new \EHAERER\Salesforce\SalesforceFunctions($instanceUrl, $accessToken);
     /* returns array with the queried data */
     $data = $salesforceFunctions->query($query);
+
 ```
 
 Create
@@ -85,7 +86,6 @@ Update
 
     /* returns statuscode */
     $salesforceFunctions->update('Account', $id, $new_data);
-
 ```
 
 Upsert
@@ -97,25 +97,30 @@ Upsert
 
     /* returns statuscode */
     $salesforceFunctions->upsert('Account', 'API Name/ Field Name', 'value', $new_data);
-
 ```
 
 Delete
 
 ```bash
     $salesforceFunctions->delete('Account', $id);
-
 ```
 
 Describe
 
 ```bash
     $salesforceFunctions->describe('Account');
-
 ```
 
+Custom endpoint
+
+```bash
+    $salesforceFunctions->customEndpoint('apex/myCustomEndpoint', $data, 200);
+```
 
 #### Changelog: ####
+##### 01.03.2021 #####
+ - added method to use custom endpoints
+
 ##### 08.09.2020 #####
  - added describe method
 
