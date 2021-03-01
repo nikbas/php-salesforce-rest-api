@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/** @noinspection PhpUnused */
 
 /** @noinspection PhpUndefinedClassInspection */
 
@@ -110,14 +111,18 @@ class SalesforceFunctions
         $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/query";
 
         $client = new Client();
-        $request = $client->request('GET', $url, [
-            'headers' => [
-                'Authorization' => "OAuth {$this->accessToken}"
-            ],
-            'query' => [
-                'q' => $query
+        $request = $client->request(
+            'GET',
+            $url,
+            [
+                'headers' => [
+                    'Authorization' => "OAuth {$this->accessToken}"
+                ],
+                'query' => [
+                    'q' => $query
+                ]
             ]
-        ]);
+        );
 
         return json_decode($request->getBody(), true);
     }
@@ -137,12 +142,16 @@ class SalesforceFunctions
         $client = new Client();
 
         try {
-            $request = $client->request('GET', $url, [
-                'headers' => [
-                    'Authorization' => "OAuth {$this->accessToken}",
-                    'Content-type' => 'application/json'
-                ],
-            ]);
+            $request = $client->request(
+                'GET',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                        'Content-type' => 'application/json'
+                    ],
+                ]
+            );
         } catch (ClientException $e) {
             throw SalesforceException::fromClientException($e);
         }
@@ -172,13 +181,17 @@ class SalesforceFunctions
         $client = new Client();
 
         try {
-            $request = $client->request('POST', $url, [
-                'headers' => [
-                    'Authorization' => "OAuth {$this->accessToken}",
-                    'Content-type' => 'application/json'
-                ],
-                'json' => $data
-            ]);
+            $request = $client->request(
+                'POST',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                        'Content-type' => 'application/json'
+                    ],
+                    'json' => $data
+                ]
+            );
 
             $status = $request->getStatusCode();
         } catch (ClientException $e) {
@@ -210,13 +223,17 @@ class SalesforceFunctions
         $client = new Client();
 
         try {
-            $request = $client->request('PATCH', $url, [
-                'headers' => [
-                    'Authorization' => "OAuth $this->accessToken",
-                    'Content-type' => 'application/json'
-                ],
-                'json' => $data
-            ]);
+            $request = $client->request(
+                'PATCH',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth $this->accessToken",
+                        'Content-type' => 'application/json'
+                    ],
+                    'json' => $data
+                ]
+            );
         } catch (ClientException $e) {
             throw SalesforceException::fromClientException($e);
         }
@@ -248,13 +265,17 @@ class SalesforceFunctions
         $client = new Client();
 
         try {
-            $request = $client->request('PATCH', $url, [
-                'headers' => [
-                    'Authorization' => "OAuth {$this->accessToken}",
-                    'Content-type' => 'application/json'
-                ],
-                'json' => $data
-            ]);
+            $request = $client->request(
+                'PATCH',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                        'Content-type' => 'application/json'
+                    ],
+                    'json' => $data
+                ]
+            );
         } catch (ClientException $e) {
             throw SalesforceException::fromClientException($e);
         }
@@ -283,11 +304,15 @@ class SalesforceFunctions
 
         try {
             $client = new Client();
-            $request = $client->request('DELETE', $url, [
-                'headers' => [
-                    'Authorization' => "OAuth {$this->accessToken}",
+            $request = $client->request(
+                'DELETE',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                    ]
                 ]
-            ]);
+            );
         } catch (ClientException $e) {
             throw SalesforceException::fromClientException($e);
         }
@@ -316,12 +341,16 @@ class SalesforceFunctions
         $client = new Client();
 
         try {
-            $request = $client->request('GET', $url, [
-                'headers' => [
-                    'Authorization' => "OAuth {$this->accessToken}",
-                    'Content-type' => 'application/json'
-                ],
-            ]);
+            $request = $client->request(
+                'GET',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                        'Content-type' => 'application/json'
+                    ],
+                ]
+            );
         } catch (ClientException $e) {
             throw SalesforceException::fromClientException($e);
         }
@@ -329,6 +358,47 @@ class SalesforceFunctions
         $status = $request->getStatusCode();
 
         if ($status !== 200) {
+            throw new SalesforceException(
+                "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
+            );
+        }
+
+        return json_decode($request->getBody(), true);
+    }
+
+    /**
+     * @param string $customEndpoint all behind /services/
+     * @param $data
+     * @return mixed
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
+    public function customEndpoint($customEndpoint, $data)
+    {
+        /* customEndpoint could be all behind /services/ */
+        $url = "{$this->instanceUrl}/services/{$customEndpoint}";
+
+        $client = new Client();
+
+        try {
+            $request = $client->request(
+                'POST',
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                        'Content-type' => 'application/json'
+                    ],
+                    'json' => $data
+                ]
+            );
+
+            $status = $request->getStatusCode();
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
+
+        if ($status !== 201) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
