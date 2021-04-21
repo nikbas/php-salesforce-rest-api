@@ -408,4 +408,51 @@ class SalesforceFunctions
 
         return $request;
     }
+    
+    /**
+     * @param $object
+     * @param $id
+     * @param $customUrlPart
+     * @param $query
+     * @param $method
+     * @return mixed
+     * @throws GuzzleException
+     * @throws SalesforceException
+     */
+    public function customCall($object, $id, $customUrlPart = '', $query = [], $method = 'GET')
+    {
+        $url = "{$this->instanceUrl}/services/data/{$this->apiVersion}/sobjects/{$object}/{$id}";
+
+        if ($customUrlPart !== '') {
+            $url .= "/{$customUrlPart}";
+        }
+            
+        $client = new Client();
+
+        try {
+            $request = $client->request(
+                $method,
+                $url,
+                [
+                    'headers' => [
+                        'Authorization' => "OAuth {$this->accessToken}",
+                        'Content-type' => 'application/json'
+                    ],
+                    'query' => (!empty($query) ? $query : null)
+                ]
+            );
+            
+            $status = $request->getStatusCode();
+        } catch (ClientException $e) {
+            throw SalesforceException::fromClientException($e);
+        }
+
+        if ($status !== 200) {
+            throw new SalesforceException(
+                "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
+            );
+        }
+
+        return json_decode($request->getBody(), true);
+    }
 }
